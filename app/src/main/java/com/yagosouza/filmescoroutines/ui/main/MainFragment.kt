@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.yagosouza.filmescoroutines.R
+import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
@@ -25,8 +27,16 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProvider(
+            this,
+            MainViewModel.MainViewModelFactory(MainRepository())
+        ).get(MainViewModel::class.java)
+
+        viewModel.filmesLiveData.observe(viewLifecycleOwner, Observer { filmes ->
+            textViewFilmes.text = filmes[0].titulo
+        })
+
+        viewModel.getFilmes()
     }
 
 }
