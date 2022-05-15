@@ -2,10 +2,14 @@ package com.yagosouza.filmescoroutines.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import kotlinx.coroutines.*
 
-class MainViewModel(private val repository: MainRepository) : ViewModel() {
+class MainViewModel(
+    private val repository: MainRepository
+//    private val navController: NavController
+    ) : ViewModel() {
+
     val filmesLiveData = MutableLiveData<List<Filme>>()
 
     fun getFilmes() {
@@ -21,15 +25,8 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
             }
 
             filmesLiveData.value = filmes
+
+//            navController.navigate()
         }
     }
-
-    class MainViewModelFactory(
-        private val repository: MainRepository
-        ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel(repository) as T
-        }
-    }
-
 }
